@@ -2096,6 +2096,9 @@ class StellarXDRUnpacker(xdrlib.Unpacker):
 
     def unpack_PublicKeyType(self):
         data = self.unpack_int()
+        # TODO FIXME Hacky workaround for handling new update
+        if data != 0:
+            data = self.unpack_int()
         if self.check_enum and data not in [const.PUBLIC_KEY_TYPE_ED25519]:
             raise XDRError('value=%s not in enum PublicKeyType' % data)
         if hasattr(self, 'filter_PublicKeyType'):
